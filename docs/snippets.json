@@ -1,0 +1,466 @@
+{
+  "EditionDrop": {
+    "name": "EditionDrop",
+    "summary": "",
+    "description": "",
+    "example": "\nimport (\n\t\"github.com/web3sdks/go-sdk/web3sdks\"\n)\n\nprivateKey = \"...\"\n\nsdk, err := web3sdks.NewWeb3sdksSDK(\"mumbai\", &web3sdks.SDKOptions{\n\tPrivateKey: privateKey,\n})\n\ncontract, err := sdk.GetEditionDrop(\"{{contract_address}}\")\n",
+    "methods": [
+      {
+        "name": "ClaimTo",
+        "summary": "",
+        "example": "address = \"{{wallet_address}}\"\ntokenId = 0\nquantity = 1\n\ntx, err := contract.ClaimTo(address, tokenId, quantity)\n",
+        "reference": "https://docs.web3sdks.com/go/edition_drop#func-editiondrop-claimto"
+      },
+      {
+        "name": "CreateBatch",
+        "summary": "",
+        "example": "image0, err := os.Open(\"path/to/image/0.jpg\")\ndefer image0.Close()\n\nimage1, err := os.Open(\"path/to/image/1.jpg\")\ndefer image1.Close()\n\nmetadatasWithSupply := []*web3sdks.EditionMetadataInput{\n\t&web3sdks.EditionMetadataInput{\n\t\tMetadata: &web3sdks.NFTMetadataInput{\n\t\t\tName: \"Cool NFT\",\n\t\t\tDescription: \"This is a cool NFT\",\n\t\t\tImage: image0,\n\t\t},\n\t\tSupply: 100,\n\t},\n\t&web3sdks.EditionMetadataInput{\n\t\tMetadata: &web3sdks.NFTMetadataInput{\n\t\t\tName: \"Cool NFT\",\n\t\t\tDescription: \"This is a cool NFT\",\n\t\t\tImage: image1,\n\t\t},\n\t\tSupply: 100,\n\t},\n}\n\ntx, err := contract.MintBatchTo(\"{{wallet_address}}\", metadatasWithSupply)\n",
+        "reference": "https://docs.web3sdks.com/go/edition_drop#func-editiondrop-createbatch"
+      },
+      {
+        "name": "BalanceOf",
+        "summary": "",
+        "example": "address := \"{{wallet_address}}\"\ntokenId := 0\nbalance, err := contract.BalanceOf(address, tokenId)\n",
+        "reference": "https://docs.web3sdks.com/go/edition_drop#func-editiondrop-balanceof"
+      },
+      {
+        "name": "Burn",
+        "summary": "",
+        "example": "tokenId := 0\namount := 1\ntx, err := contract.Burn(tokenId, amount)\n",
+        "reference": "https://docs.web3sdks.com/go/edition_drop#func-editiondrop-burn"
+      },
+      {
+        "name": "Get",
+        "summary": "",
+        "example": "nft, err := contract.Get(0)\n",
+        "reference": "https://docs.web3sdks.com/go/edition_drop#func-editiondrop-get"
+      },
+      {
+        "name": "GetAll",
+        "summary": "",
+        "example": "nfts, err := contract.GetAll()\nsupplyOne := nfts[0].Supply\nnameOne := nfts[0].Metadata.Name\n",
+        "reference": "https://docs.web3sdks.com/go/edition_drop#func-editiondrop-getall"
+      },
+      {
+        "name": "GetOwned",
+        "summary": "",
+        "example": "owner := \"{{wallet_address}}\"\nnfts, err := contract.GetOwned(owner)\nname := nfts[0].Metadata.Name\n",
+        "reference": "https://docs.web3sdks.com/go/edition_drop#func-editiondrop-getowned"
+      },
+      {
+        "name": "Transfer",
+        "summary": "",
+        "example": "to := \"0x...\"\ntokenId := 0\namount := 1\n\ntx, err := contract.Transfer(to, tokenId, amount)\n",
+        "reference": "https://docs.web3sdks.com/go/edition_drop#func-editiondrop-transfer"
+      }
+    ],
+    "properties": [],
+    "reference": "https://docs.web3sdks.com/go/edition_drop"
+  },
+  "Edition": {
+    "name": "Edition",
+    "summary": "",
+    "description": "",
+    "example": "\nimport (\n\t\"github.com/web3sdks/go-sdk/web3sdks\"\n)\n\nprivateKey = \"...\"\n\nsdk, err := web3sdks.NewWeb3sdksSDK(\"mumbai\", &web3sdks.SDKOptions{\n\tPrivateKey: privateKey,\n})\n\ncontract, err := sdk.GetEdition(\"{{contract_address}}\")\n",
+    "methods": [
+      {
+        "name": "MintBatchTo",
+        "summary": "",
+        "example": "metadatasWithSupply := []*web3sdks.EditionMetadataInput{\n\t&web3sdks.EditionMetadataInput{\n\t\tMetadata: &web3sdks.NFTMetadataInput{\n\t\t\tName: \"Cool NFT\",\n\t\t\tDescription: \"This is a cool NFT\",\n\t\t},\n\t\tSupply: 100,\n\t},\n\t&web3sdks.EditionMetadataInput{\n\t\tMetadata: &web3sdks.NFTMetadataInput{\n\t\t\tName: \"Cool NFT\",\n\t\t\tDescription: \"This is a cool NFT\",\n\t\t},\n\t\tSupply: 100,\n\t},\n}\n\ntx, err := contract.MintBatchTo(\"{{wallet_address}}\", metadatasWithSupply)\n",
+        "reference": "https://docs.web3sdks.com/go/edition#func-edition-mintbatchto"
+      },
+      {
+        "name": "MintTo",
+        "summary": "",
+        "example": "image, err := os.Open(\"path/to/image.jpg\")\ndefer image.Close()\n\nmetadataWithSupply := &web3sdks.EditionMetadataInput{\n\tMetadata: &web3sdks.NFTMetadataInput{\n\t\tName: \"Cool NFT\",\n\t\tDescription: \"This is a cool NFT\",\n\t\tImage: image,\n\t},\n\tSupply: 100,\n}\n\ntx, err := contract.MintTo(\"{{wallet_address}}\", metadataWithSupply)\n",
+        "reference": "https://docs.web3sdks.com/go/edition#func-edition-mintto"
+      },
+      {
+        "name": "BalanceOf",
+        "summary": "",
+        "example": "address := \"{{wallet_address}}\"\ntokenId := 0\nbalance, err := contract.BalanceOf(address, tokenId)\n",
+        "reference": "https://docs.web3sdks.com/go/edition#func-edition-balanceof"
+      },
+      {
+        "name": "Burn",
+        "summary": "",
+        "example": "tokenId := 0\namount := 1\ntx, err := contract.Burn(tokenId, amount)\n",
+        "reference": "https://docs.web3sdks.com/go/edition#func-edition-burn"
+      },
+      {
+        "name": "Get",
+        "summary": "",
+        "example": "nft, err := contract.Get(0)\n",
+        "reference": "https://docs.web3sdks.com/go/edition#func-edition-get"
+      },
+      {
+        "name": "GetAll",
+        "summary": "",
+        "example": "nfts, err := contract.GetAll()\nsupplyOne := nfts[0].Supply\nnameOne := nfts[0].Metadata.Name\n",
+        "reference": "https://docs.web3sdks.com/go/edition#func-edition-getall"
+      },
+      {
+        "name": "GetOwned",
+        "summary": "",
+        "example": "owner := \"{{wallet_address}}\"\nnfts, err := contract.GetOwned(owner)\nname := nfts[0].Metadata.Name\n",
+        "reference": "https://docs.web3sdks.com/go/edition#func-edition-getowned"
+      },
+      {
+        "name": "Transfer",
+        "summary": "",
+        "example": "to := \"0x...\"\ntokenId := 0\namount := 1\n\ntx, err := contract.Transfer(to, tokenId, amount)\n",
+        "reference": "https://docs.web3sdks.com/go/edition#func-edition-transfer"
+      }
+    ],
+    "properties": [],
+    "reference": "https://docs.web3sdks.com/go/edition"
+  },
+  "NFTCollection": {
+    "name": "NFTCollection",
+    "summary": "",
+    "description": "",
+    "example": "\nimport (\n\t\"github.com/web3sdks/go-sdk/web3sdks\"\n)\n\nprivateKey = \"...\"\n\nsdk, err := web3sdks.NewWeb3sdksSDK(\"mumbai\", &web3sdks.SDKOptions{\n\tPrivateKey: privateKey,\n})\n\ncontract, err := sdk.GetNFTCollection(\"{{contract_address}}\")\n",
+    "methods": [
+      {
+        "name": "GetOwned",
+        "summary": "",
+        "example": "owner := \"{{wallet_address}}\"\nnfts, err := contract.GetOwned(owner)\nname := nfts[0].Metadata.Name\n",
+        "reference": "https://docs.web3sdks.com/go/nft_collection#func-nftcollection-getowned"
+      },
+      {
+        "name": "MintBatchTo",
+        "summary": "",
+        "example": "metadatas := []*web3sdks.NFTMetadataInput{\n\t&web3sdks.NFTMetadataInput{\n\t\tName: \"Cool NFT\",\n\t\tDescription: \"This is a cool NFT\",\n\t}\n\t&web3sdks.NFTMetadataInput{\n\t\tName: \"Cool NFT 2\",\n\t\tDescription: \"This is also a cool NFT\",\n\t}\n}\n\ntx, err := contract.MintBatchTo(\"{{wallet_address}}\", metadatas)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_collection#func-nftcollection-mintbatchto"
+      },
+      {
+        "name": "MintTo",
+        "summary": "",
+        "example": "image, err := os.Open(\"path/to/image.jpg\")\ndefer image.Close()\n\nmetadata := &web3sdks.NFTMetadataInput{\n\tName: \"Cool NFT\",\n\tDescription: \"This is a cool NFT\",\n\tImage: image,\n}\n\ntx, err := contract.MintTo(\"{{wallet_address}}\", metadata)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_collection#func-nftcollection-mintto"
+      },
+      {
+        "name": "BalanceOf",
+        "summary": "",
+        "example": "address := \"{{wallet_address}}\"\nbalance, err := contract.BalanceOf(address)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_collection#func-nftcollection-balanceof"
+      },
+      {
+        "name": "Burn",
+        "summary": "",
+        "example": "tokenId := 0\ntx, err := contract.Burn(tokenId)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_collection#func-nftcollection-burn"
+      },
+      {
+        "name": "Get",
+        "summary": "",
+        "example": "nft, err := contract.Get(0)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_collection#func-nftcollection-get"
+      },
+      {
+        "name": "GetAll",
+        "summary": "",
+        "example": "nfts, err := contract.GetAll()\nownerOne := nfts[0].Owner\nnameOne := nfts[0].Metadata.Name\n",
+        "reference": "https://docs.web3sdks.com/go/nft_collection#func-nftcollection-getall"
+      },
+      {
+        "name": "Transfer",
+        "summary": "",
+        "example": "to := \"0x...\"\ntokenId := 0\n\ntx, err := contract.Transfer(to, tokenId)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_collection#func-nftcollection-transfer"
+      }
+    ],
+    "properties": [],
+    "reference": "https://docs.web3sdks.com/go/nft_collection"
+  },
+  "NFTDrop": {
+    "name": "NFTDrop",
+    "summary": "",
+    "description": "",
+    "example": "\nimport (\n\t\"github.com/web3sdks/go-sdk/web3sdks\"\n)\n\nprivateKey = \"...\"\n\nsdk, err := web3sdks.NewWeb3sdksSDK(\"mumbai\", &web3sdks.SDKOptions{\n\tPrivateKey: privateKey,\n})\n\ncontract, err := sdk.GetNFTDrop(\"{{contract_address}}\")\n",
+    "methods": [
+      {
+        "name": "ClaimTo",
+        "summary": "",
+        "example": "address := \"{{wallet_address}}\"\nquantity = 1\n\ntx, err := contract.ClaimTo(address, quantity)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_drop#func-nftdrop-claimto"
+      },
+      {
+        "name": "CreateBatch",
+        "summary": "",
+        "example": "image0, err := os.Open(\"path/to/image/0.jpg\")\ndefer image0.Close()\n\nimage1, err := os.Open(\"path/to/image/1.jpg\")\ndefer image1.Close()\n\nmetadatas := []*web3sdks.NFTMetadataInput{\n\t&web3sdks.NFTMetadataInput{\n\t\tName: \"Cool NFT\",\n\t\tDescription: \"This is a cool NFT\",\n\t\tImage: image1\n\t}\n\t&web3sdks.NFTMetadataInput{\n\t\tName: \"Cool NFT 2\",\n\t\tDescription: \"This is also a cool NFT\",\n\t\tImage: image2\n\t}\n}\n\ntx, err := contract.CreateBatch(metadatas)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_drop#func-nftdrop-createbatch"
+      },
+      {
+        "name": "GetAllClaimed",
+        "summary": "",
+        "example": "claimedNfts, err := contract.GetAllClaimed()\nfirstOwner := claimedNfts[0].Owner\n",
+        "reference": "https://docs.web3sdks.com/go/nft_drop#func-nftdrop-getallclaimed"
+      },
+      {
+        "name": "GetAllUnclaimed",
+        "summary": "",
+        "example": "unclaimedNfts, err := contract.GetAllUnclaimed()\nfirstNftName := unclaimedNfts[0].Name\n",
+        "reference": "https://docs.web3sdks.com/go/nft_drop#func-nftdrop-getallunclaimed"
+      },
+      {
+        "name": "GetOwned",
+        "summary": "",
+        "example": "owner := \"{{wallet_address}}\"\nnfts, err := contract.GetOwned(owner)\nname := nfts[0].Metadata.Name\n",
+        "reference": "https://docs.web3sdks.com/go/nft_drop#func-nftdrop-getowned"
+      },
+      {
+        "name": "BalanceOf",
+        "summary": "",
+        "example": "address := \"{{wallet_address}}\"\nbalance, err := contract.BalanceOf(address)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_drop#func-nftdrop-balanceof"
+      },
+      {
+        "name": "Burn",
+        "summary": "",
+        "example": "tokenId := 0\ntx, err := contract.Burn(tokenId)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_drop#func-nftdrop-burn"
+      },
+      {
+        "name": "Get",
+        "summary": "",
+        "example": "nft, err := contract.Get(0)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_drop#func-nftdrop-get"
+      },
+      {
+        "name": "GetAll",
+        "summary": "",
+        "example": "nfts, err := contract.GetAll()\nownerOne := nfts[0].Owner\nnameOne := nfts[0].Metadata.Name\n",
+        "reference": "https://docs.web3sdks.com/go/nft_drop#func-nftdrop-getall"
+      },
+      {
+        "name": "Transfer",
+        "summary": "",
+        "example": "to := \"0x...\"\ntokenId := 0\n\ntx, err := contract.Transfer(to, tokenId)\n",
+        "reference": "https://docs.web3sdks.com/go/nft_drop#func-nftdrop-transfer"
+      }
+    ],
+    "properties": [],
+    "reference": "https://docs.web3sdks.com/go/nft_drop"
+  },
+  "Token": {
+    "name": "Token",
+    "summary": "",
+    "description": "",
+    "example": "\nimport (\n\t\"github.com/web3sdks/go-sdk/web3sdks\"\n)\n\nprivateKey = \"...\"\n\nsdk, err := web3sdks.NewWeb3sdksSDK(\"mumbai\", &web3sdks.SDKOptions{\n\tPrivateKey: privateKey,\n})\n\ncontract, err := sdk.GetToken(\"{{contract_address}}\")\n",
+    "methods": [
+      {
+        "name": "MintBatchTo",
+        "summary": "",
+        "example": "args = []*web3sdks.TokenAmount{\n\t&web3sdks.TokenAmount{\n\t\tToAddress: \"{{wallet_address}}\",\n\t\tAmount:    1\n\t}\n\t&web3sdks.TokenAmount{\n\t\tToAddress: \"{{wallet_address}}\",\n\t\tAmount:    2\n\t}\n}\n\ntx, err := contract.MintBatchTo(args)\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-mintbatchto"
+      },
+      {
+        "name": "MintTo",
+        "summary": "",
+        "example": "tx, err := contract.MintTo(\"{{wallet_address}}\", 1)\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-mintto"
+      },
+      {
+        "name": "Allowance",
+        "summary": "",
+        "example": "spender := \"0x...\"\n\nallowance, err := contract.Allowance(spender)\nallowanceValue := allowance.DisplayValue\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-allowance"
+      },
+      {
+        "name": "AllowanceOf",
+        "summary": "",
+        "example": "address := \"{{wallet_address}}\"\nspender := \"0x...\"\n\nallowance, err := contract.AllowanceOf(address, spender)\nallowanceValue := allowance.DisplayValue\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-allowanceof"
+      },
+      {
+        "name": "Balance",
+        "summary": "",
+        "example": "balance, err := contract.Balance()\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-balance"
+      },
+      {
+        "name": "BalanceOf",
+        "summary": "",
+        "example": "address := \"{{wallet_address}}\"\nbalance, err := contract.BalanceOf()\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-balanceof"
+      },
+      {
+        "name": "Burn",
+        "summary": "",
+        "example": "amount := 1\ntx, err := contract.Burn(amount)\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-burn"
+      },
+      {
+        "name": "BurnFrom",
+        "summary": "",
+        "example": "holder := \"0x...\"\namount := 1\n\ntx, err := contract.BurnFrom(holder, amount)\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-burnfrom"
+      },
+      {
+        "name": "Get",
+        "summary": "",
+        "example": "currency, err := contract.Get()\nsymbol := currency.Symbol\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-get"
+      },
+      {
+        "name": "SetAllowance",
+        "summary": "",
+        "example": "spender := \"0x...\"\namount := 1\n\ntx, err := contract.SetAllowance(spender, amount)\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-setallowance"
+      },
+      {
+        "name": "Transfer",
+        "summary": "",
+        "example": "to := \"0x...\"\namount := 1\n\ntx, err := contract.Transfer(to, amount)\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-transfer"
+      },
+      {
+        "name": "TransferBatch",
+        "summary": "",
+        "example": "args = []*web3sdks.TokenAmount{\n\t&web3sdks.TokenAmount{\n\t\tToAddress: \"0x...\",\n\t\tAmount:    1\n\t}\n\t&web3sdks.TokenAmount{\n\t\tToAddress: \"0x...\",\n\t\tAmount:    2\n\t}\n}\n\ntx, err := contract.TransferBatch(args)\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-transferbatch"
+      },
+      {
+        "name": "TransferFrom",
+        "summary": "",
+        "example": "from := \"{{wallet_address}}\"\nto := \"0x...\"\namount := 1\n\ntx, err := contract.TransferFrom(from, to, amount)\n",
+        "reference": "https://docs.web3sdks.com/go/token#func-token-transferfrom"
+      }
+    ],
+    "properties": [],
+    "reference": "https://docs.web3sdks.com/go/token"
+  },
+  "Multiwrap": {
+    "name": "Multiwrap",
+    "summary": "",
+    "description": "",
+    "example": "\nimport (\n\t\"github.com/web3sdks/go-sdk/web3sdks\"\n)\n\nprivateKey = \"...\"\n\nsdk, err := web3sdks.NewWeb3sdksSDK(\"mumbai\", &web3sdks.SDKOptions{\n\tPrivateKey: privateKey,\n})\n\ncontract, err := sdk.GetMultiwrap(\"{{contract_address}}\")\n",
+    "methods": [
+      {
+        "name": "GetWrappedContents",
+        "summary": "",
+        "example": "tokenId := 0\ncontents, err := contract.GetWrappedContents(tokenId)\nerc20Tokens := contents.Erc20Tokens\nerc721Tokens := contents.Erc721Tokens\nerc1155Tokens := contents.Erc1155Tokens\n",
+        "reference": "https://docs.web3sdks.com/go/multiwrap#func-multiwrap-getwrappedcontents"
+      },
+      {
+        "name": "Unwrap",
+        "summary": "",
+        "example": "tokenId := 0\ntx, err := contract.Unwrap(tokenId, \"\")\n",
+        "reference": "https://docs.web3sdks.com/go/multiwrap#func-multiwrap-unwrap"
+      },
+      {
+        "name": "Wrap",
+        "summary": "",
+        "example": "contents := &web3sdks.MultiwrapBundle{\n\tERC20Tokens: []*web3sdks.MultiwrapERC20{\n\t\t&web3sdks.MultiwrapERC20{\n\t\t\tContractAddress: \"0x...\",\n\t\t\tQuantity:        1,\n\t\t},\n\t},\n\tERC721Tokens: []*web3sdks.MultiwrapERC721{\n\t\t&web3sdks.MultiwrapERC721{\n\t\t\tContractAddress: \"0x...\",\n\t\t\tTokenId:         1,\n\t\t},\n\t},\n\tERC1155Tokens: []*web3sdks.MultiwrapERC1155{\n\t\t&web3sdks.MultiwrapERC1155{\n\t\t\tContractAddress: \"0x...\",\n\t\t\tTokenId:         1,\n\t\t\tQuantity:        1,\n\t\t},\n\t},\n}\n\nwrappedTokenMetadata := &web3sdks.NFTMetadataInput{\n\tName: \"Wrapped Token\"\n}\n\n// This will mint the wrapped token to the connected wallet\ntx, err := contract.Wrap(contents, wrappedTokenMetadata, \"\")\n",
+        "reference": "https://docs.web3sdks.com/go/multiwrap#func-multiwrap-wrap"
+      },
+      {
+        "name": "BalanceOf",
+        "summary": "",
+        "example": "address := \"{{wallet_address}}\"\nbalance, err := contract.BalanceOf(address)\n",
+        "reference": "https://docs.web3sdks.com/go/multiwrap#func-multiwrap-balanceof"
+      },
+      {
+        "name": "Burn",
+        "summary": "",
+        "example": "tokenId := 0\ntx, err := contract.Burn(tokenId)\n",
+        "reference": "https://docs.web3sdks.com/go/multiwrap#func-multiwrap-burn"
+      },
+      {
+        "name": "Get",
+        "summary": "",
+        "example": "nft, err := contract.Get(0)\n",
+        "reference": "https://docs.web3sdks.com/go/multiwrap#func-multiwrap-get"
+      },
+      {
+        "name": "GetAll",
+        "summary": "",
+        "example": "nfts, err := contract.GetAll()\nownerOne := nfts[0].Owner\nnameOne := nfts[0].Metadata.Name\n",
+        "reference": "https://docs.web3sdks.com/go/multiwrap#func-multiwrap-getall"
+      },
+      {
+        "name": "Transfer",
+        "summary": "",
+        "example": "to := \"0x...\"\ntokenId := 0\n\ntx, err := contract.Transfer(to, tokenId)\n",
+        "reference": "https://docs.web3sdks.com/go/multiwrap#func-multiwrap-transfer"
+      }
+    ],
+    "properties": [],
+    "reference": "https://docs.web3sdks.com/go/multiwrap"
+  },
+  "Marketplace": {
+    "name": "Marketplace",
+    "summary": "",
+    "description": "",
+    "example": "\nimport (\n\t\"github.com/web3sdks/go-sdk/web3sdks\"\n)\n\nprivateKey = \"...\"\n\nsdk, err := web3sdks.NewWeb3sdksSDK(\"mumbai\", &web3sdks.SDKOptions{\n\tPrivateKey: privateKey,\n})\n\ncontract, err := sdk.GetMarketplace(\"{{contract_address}}\")\n",
+    "methods": [
+      {
+        "name": "BuyoutListingTo",
+        "summary": "",
+        "example": "listingId := 0\nquantityDesired := 1\nreceiver := \"0x...\"\nreceipt, err := marketplace.BuyoutListingTo(listingId, quantityDesired, receiver)\n",
+        "reference": "https://docs.web3sdks.com/go/marketplace#func-marketplace-buyoutlistingto"
+      },
+      {
+        "name": "CancelListing",
+        "summary": "",
+        "example": "listingId := 0\nreceipt, err := marketplace.CancelListing(listingId)\n",
+        "reference": "https://docs.web3sdks.com/go/marketplace#func-marketplace-cancellisting"
+      },
+      {
+        "name": "CreateListing",
+        "summary": "",
+        "example": "listing := &NewDirectListing{\n\tAssetContractAddress: \"0x...\", // Address of the asset contract\n\tTokenId: 0, // Token ID of the asset to list\n\tStartTimeInEpochSeconds: int(time.Now().Unix()), // Defaults to current time\n\tListingDurationInSeconds: int(time.Now().Unix() + 3600), // Defaults to current time + 1 hour\n\tQuantity: 1, // Quantity of the asset to list\n\tCurrencyContractAddress: \"0x...\", // Contract address of currency to sell for, defaults to native token\n\tBuyoutPricePerToken: 1, // Price per token of the asset to list\n}\n\nlistingId, err := marketplace.CreateListing(listing)\n",
+        "reference": "https://docs.web3sdks.com/go/marketplace#func-marketplace-createlisting"
+      },
+      {
+        "name": "GetActiveListings",
+        "summary": "",
+        "example": "listings, err := marketplace.GetActiveListings()\n// Price per token of the first listing\nlistings[0].BuyoutCurrencyValuePerToken.DisplayValue\n",
+        "reference": "https://docs.web3sdks.com/go/marketplace#func-marketplace-getactivelistings"
+      },
+      {
+        "name": "GetListing",
+        "summary": "",
+        "example": "listingId := 0\nlisting, err := marketplace.GetListing(listingId)\n",
+        "reference": "https://docs.web3sdks.com/go/marketplace#func-marketplace-getlisting"
+      }
+    ],
+    "properties": [],
+    "reference": "https://docs.web3sdks.com/go/marketplace"
+  },
+  "WalletAuthenticator": {
+    "name": "WalletAuthenticator",
+    "summary": "",
+    "description": "",
+    "example": "\n// First we specify the domain of the application to authenticate to\ndomain := \"web3sdks.com\"\n\n// We can then generate a payload for the connected wallet to login\n// This can also be done on the client side with the web3sdks TypeScript SDK\npayload, err := sdk.Auth.Login(domain, nil)\n\n// Then, on the server, we can securely verify the connected address that signed the payload\naddress, err := sdk.Auth.Verify(domain, payload, nil)\n\n// And we can also generate an authentication token to send back to the original payload sender\ntoken, err := sdk.Auth.GenerateAuthToken(domain, payload, nil)\n\n// Finally, the token can be use dby the original payload sender to authenticate to the backend\n// And the server can use the following function to authenticate the token and verify the address\naddress, err := sdk.Auth.Authenticate(domain, token)\n",
+    "methods": [
+      {
+        "name": "Authenticate",
+        "summary": "",
+        "example": "domain := \"web3sdks.com\"\npayload, err := sdk.Auth.Login(domain)\ntoken, err := sdk.Auth.GenerateAuthToken(domain, payload)\n\n// Authenticate the token and get the address of the authenticating wallet\naddress, err := sdk.Auth.Authenticate(domain, token)\n",
+        "reference": "https://docs.web3sdks.com/go/wallet_authenticator#func-walletauthenticator-authenticate"
+      },
+      {
+        "name": "GenerateAuthToken",
+        "summary": "",
+        "example": "domain := \"web3sdks.com\"\npayload, err := sdk.Auth.Login(domain, nil)\n\n// Generate an authentication token for the logged in wallet\ntoken, err := sdk.Auth.GenerateAuthToken(domain, payload, nil)\n",
+        "reference": "https://docs.web3sdks.com/go/wallet_authenticator#func-walletauthenticator-generateauthtoken"
+      },
+      {
+        "name": "Login",
+        "summary": "",
+        "example": "// Add the domain of the application that you want to log in to\ndomain := \"web3sdks.com\"\n\n// Generate a signed login payload for the connected wallet to authenticate with\npayload, err := sdk.Auth.Login(domain, nil)\n",
+        "reference": "https://docs.web3sdks.com/go/wallet_authenticator#func-walletauthenticator-login"
+      },
+      {
+        "name": "Verify",
+        "summary": "",
+        "example": "domain := \"web3sdks.com\"\npayload, err := sdk.Auth.Login(domain, nil)\n\n// Verify the login request\naddress, err := sdk.Auth.Verify(domain, payload, nil)\n",
+        "reference": "https://docs.web3sdks.com/go/wallet_authenticator#func-walletauthenticator-verify"
+      }
+    ],
+    "properties": [],
+    "reference": "https://docs.web3sdks.com/go/wallet_authenticator"
+  }
+}
