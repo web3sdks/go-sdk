@@ -4,7 +4,7 @@ import "errors"
 
 // SERVER URLS
 
-const defaultIpfsGatewayUrl = "https://ipfscdn.web3sdks.com/ipfs/"
+const defaultIpfsGatewayUrl = "https://gateway.ipfscdn.io/ipfs/"
 const twIpfsServerUrl = "https://ipfs.web3sdks.com"
 const pinataIpfsUrl = "https://api.pinata.cloud/pinning/pinFileToIPFS"
 
