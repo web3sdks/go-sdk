@@ -1,9 +1,15 @@
 package main
 
 import (
+	"context"
+	"fmt"
 	"log"
+	"time"
 
-	"github.com/web3sdks/go-sdk/web3sdks"
+	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/core/types"
+
+	"github.com/web3sdks/go-sdk/v2/web3sdks"
 )
 
 var (
@@ -20,6 +26,37 @@ func initSdk() {
 		panic(err)
 	} else {
 		web3sdksSDK = sdk
+	}
+}
+
+func awaitTx(hash common.Hash) (*types.Transaction, error) {
+	provider := web3sdksSDK.GetProvider()
+	wait := time.Second * 1
+	maxAttempts := uint8(20)
+	attempts := uint8(0)
+
+	var syncError error
+	for {
+		if attempts >= maxAttempts {
+			fmt.Println("Retry attempts to get tx exhausted, tx might have failed")
+			return nil, syncError
+		}
+
+		if tx, isPending, err := provider.TransactionByHash(context.Background(), hash); err != nil {
+			syncError = err
+			log.Printf("Failed to get tx %v, err = %v\n", hash.String(), err)
+			attempts += 1
+			time.Sleep(wait)
+			continue
+		} else {
+			if isPending {
+				log.Println("Transaction still pending...")
+				time.Sleep(wait)
+				continue
+			}
+			log.Printf("Transaction with hash %v mined successfully\n", tx.Hash())
+			return tx, nil
+		}
 	}
 }
 
@@ -135,7 +172,7 @@ func getCustom() (*web3sdks.SmartContract, error) {
 
 	log.Printf("Obtaining a Custom on chain %v, contract %v\n", chainRpcUrl, customContractAddress)
 
-	if contract, err := web3sdksSDK.GetContract(customContractAddress); err != nil {
+	if contract, err := web3sdksSDK.GetContract(context.Background(), customContractAddress); err != nil {
 		log.Println("Failed to create an Custom object")
 		return nil, err
 	} else {

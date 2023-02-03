@@ -5,7 +5,7 @@ You can access the NFT Collection interface from the SDK as follows:
 
 ```
 import (
-	"github.com/web3sdks/go-sdk/web3sdks"
+	"github.com/web3sdks/go-sdk/v2/web3sdks"
 )
 
 privateKey = "..."
@@ -22,13 +22,14 @@ type NFTCollection struct {
     *ERC721
     Signature *ERC721SignatureMinting
     Encoder   *ContractEncoder
+    Events    *ContractEvents
 }
 ```
 
-### func \(\*NFTCollection\) [GetOwned](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L78>)
+### func \(\*NFTCollection\) [GetOwned](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L86>)
 
 ```go
-func (nft *NFTCollection) GetOwned(address string) ([]*NFTMetadataOwner, error)
+func (nft *NFTCollection) GetOwned(ctx context.Context, address string) ([]*NFTMetadataOwner, error)
 ```
 
 Get the metadatas of all the NFTs owned by a specific address\.
@@ -41,14 +42,14 @@ returns: the metadata of all the NFTs owned by the address
 
 ```
 owner := "{{wallet_address}}"
-nfts, err := contract.GetOwned(owner)
+nfts, err := contract.GetOwned(context.Background(), owner)
 name := nfts[0].Metadata.Name
 ```
 
-### func \(\*NFTCollection\) [GetOwnedTokenIDs](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L95>)
+### func \(\*NFTCollection\) [GetOwnedTokenIDs](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L103>)
 
 ```go
-func (nft *NFTCollection) GetOwnedTokenIDs(address string) ([]*big.Int, error)
+func (nft *NFTCollection) GetOwnedTokenIDs(ctx context.Context, address string) ([]*big.Int, error)
 ```
 
 Get the tokenIds of all the NFTs owned by a specific address\.
@@ -57,10 +58,10 @@ address: the address of the owner of the NFTs
 
 returns: the tokenIds of all the NFTs owned by the address
 
-### func \(\*NFTCollection\) [Mint](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L120>)
+### func \(\*NFTCollection\) [Mint](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L128>)
 
 ```go
-func (nft *NFTCollection) Mint(metadata *NFTMetadataInput) (*types.Transaction, error)
+func (nft *NFTCollection) Mint(ctx context.Context, metadata *NFTMetadataInput) (*types.Transaction, error)
 ```
 
 Mint a new NFT to the connected wallet\.
@@ -69,10 +70,10 @@ metadata: metadata of the NFT to mint
 
 returns: the transaction receipt of the mint
 
-### func \(\*NFTCollection\) [MintBatch](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L172>)
+### func \(\*NFTCollection\) [MintBatch](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L180>)
 
 ```go
-func (nft *NFTCollection) MintBatch(metadatas []*NFTMetadataInput) (*types.Transaction, error)
+func (nft *NFTCollection) MintBatch(ctx context.Context, metadatas []*NFTMetadataInput) (*types.Transaction, error)
 ```
 
 Mint a batch of new NFTs to the connected wallet\.
@@ -81,10 +82,10 @@ metadatas: list of metadata of the NFTs to mint
 
 returns: the transaction receipt of the mint
 
-### func \(\*NFTCollection\) [MintBatchTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L199>)
+### func \(\*NFTCollection\) [MintBatchTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L207>)
 
 ```go
-func (nft *NFTCollection) MintBatchTo(address string, metadatas []*NFTMetadataInput) (*types.Transaction, error)
+func (nft *NFTCollection) MintBatchTo(ctx context.Context, address string, metadatas []*NFTMetadataInput) (*types.Transaction, error)
 ```
 
 Mint a batch of new NFTs to the specified wallet\.
@@ -109,13 +110,13 @@ metadatas := []*web3sdks.NFTMetadataInput{
 	}
 }
 
-tx, err := contract.MintBatchTo("{{wallet_address}}", metadatas)
+tx, err := contract.MintBatchTo(context.Background(), "{{wallet_address}}", metadatas)
 ```
 
-### func \(\*NFTCollection\) [MintTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L145>)
+### func \(\*NFTCollection\) [MintTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/nft_collection.go#L153>)
 
 ```go
-func (nft *NFTCollection) MintTo(address string, metadata *NFTMetadataInput) (*types.Transaction, error)
+func (nft *NFTCollection) MintTo(ctx context.Context, address string, metadata *NFTMetadataInput) (*types.Transaction, error)
 ```
 
 Mint a new NFT to the specified wallet\.
@@ -138,5 +139,5 @@ metadata := &web3sdks.NFTMetadataInput{
 	Image: image,
 }
 
-tx, err := contract.MintTo("{{wallet_address}}", metadata)
+tx, err := contract.MintTo(context.Background(), "{{wallet_address}}", metadata)
 ```

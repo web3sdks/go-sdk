@@ -5,7 +5,7 @@ You can access the Edition Drop interface from the SDK as follows:
 
 ```
 import (
-	"github.com/web3sdks/go-sdk/web3sdks"
+	"github.com/web3sdks/go-sdk/v2/web3sdks"
 )
 
 privateKey = "..."
@@ -22,13 +22,14 @@ type EditionDrop struct {
     *ERC1155
     ClaimConditions *EditionDropClaimConditions
     Encoder         *ContractEncoder
+    Events          *ContractEvents
 }
 ```
 
-### func \(\*EditionDrop\) [Claim](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/edition_drop.go#L145>)
+### func \(\*EditionDrop\) [Claim](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/edition_drop.go#L158>)
 
 ```go
-func (drop *EditionDrop) Claim(tokenId int, quantity int) (*types.Transaction, error)
+func (drop *EditionDrop) Claim(ctx context.Context, tokenId int, quantity int) (*types.Transaction, error)
 ```
 
 Claim NFTs from this contract to the connect wallet\.
@@ -39,10 +40,10 @@ quantity: the number of NFTs to claim
 
 returns: the transaction receipt of the claim
 
-### func \(\*EditionDrop\) [ClaimTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/edition_drop.go#L167>)
+### func \(\*EditionDrop\) [ClaimTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/edition_drop.go#L180>)
 
 ```go
-func (drop *EditionDrop) ClaimTo(destinationAddress string, tokenId int, quantity int) (*types.Transaction, error)
+func (drop *EditionDrop) ClaimTo(ctx context.Context, destinationAddress string, tokenId int, quantity int) (*types.Transaction, error)
 ```
 
 Claim NFTs from this contract to the connect wallet\.
@@ -62,13 +63,13 @@ address = "{{wallet_address}}"
 tokenId = 0
 quantity = 1
 
-tx, err := contract.ClaimTo(address, tokenId, quantity)
+tx, err := contract.ClaimTo(context.Background(), address, tokenId, quantity)
 ```
 
-### func \(\*EditionDrop\) [CreateBatch](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/edition_drop.go#L101>)
+### func \(\*EditionDrop\) [CreateBatch](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/edition_drop.go#L110>)
 
 ```go
-func (drop *EditionDrop) CreateBatch(metadatas []*NFTMetadataInput) (*types.Transaction, error)
+func (drop *EditionDrop) CreateBatch(ctx context.Context, metadatas []*NFTMetadataInput) (*types.Transaction, error)
 ```
 
 Create a batch of NFTs on this contract\.
@@ -105,5 +106,5 @@ metadatasWithSupply := []*web3sdks.EditionMetadataInput{
 	},
 }
 
-tx, err := contract.MintBatchTo("{{wallet_address}}", metadatasWithSupply)
+tx, err := contract.MintBatchTo(context.Background(), "{{wallet_address}}", metadatasWithSupply)
 ```

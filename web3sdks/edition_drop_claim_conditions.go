@@ -1,12 +1,15 @@
 package web3sdks
 
 import (
+	"context"
+	"encoding/json"
 	"math/big"
 
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"github.com/web3sdks/go-sdk/internal/abi"
+
+	"github.com/web3sdks/go-sdk/v2/abi"
 )
 
 // This interface is currently accessible from the Edition Drop contract contract type
@@ -38,32 +41,32 @@ func newEditionDropClaimConditions(address common.Address, provider *ethclient.C
 //
 // Example
 //
-// 	tokenId := 0
-// 	condition, err := contract.ClaimConditions.GetActive(tokenId)
+//	tokenId := 0
+//	condition, err := contract.ClaimConditions.GetActive(context.Background(), tokenId)
 //
-// 	// Now you have access to all the claim condition metadata
-// 	fmt.Println("Start Time:", condition.StartTime)
-// 	fmt.Println("Available:", condition.AvailableSupply)
-// 	fmt.Println("Quantity:", condition.MaxQuantity)
-// 	fmt.Println("Quantity Limit:", condition.QuantityLimitPerTransaction)
-// 	fmt.Println("Price:", condition.Price)
-// 	fmt.Println("Wait In Seconds", condition.WaitInSeconds)
-func (claim *EditionDropClaimConditions) GetActive(tokenId int) (*ClaimConditionOutput, error) {
-	id, err := claim.abi.GetActiveClaimConditionId(&bind.CallOpts{}, big.NewInt(int64(tokenId)))
+//	// Now you have access to all the claim condition metadata
+//	fmt.Println("Start Time:", condition.StartTime)
+//	fmt.Println("Available:", condition.AvailableSupply)
+//	fmt.Println("Quantity:", condition.MaxQuantity)
+//	fmt.Println("Quantity Limit:", condition.QuantityLimitPerTransaction)
+//	fmt.Println("Price:", condition.Price)
+//	fmt.Println("Wait In Seconds", condition.WaitInSeconds)
+func (claim *EditionDropClaimConditions) GetActive(ctx context.Context, tokenId int) (*ClaimConditionOutput, error) {
+	id, err := claim.abi.GetActiveClaimConditionId(&bind.CallOpts{Context: ctx}, big.NewInt(int64(tokenId)))
 	if err != nil {
 		return nil, err
 	}
 
-	mc, err := claim.abi.GetClaimConditionById(&bind.CallOpts{}, big.NewInt(int64(tokenId)), id)
+	mc, err := claim.abi.GetClaimConditionById(&bind.CallOpts{Context: ctx}, big.NewInt(int64(tokenId)), id)
 	if err != nil {
 		return nil, err
 	}
 
 	provider := claim.helper.GetProvider()
 	claimCondition, err := transformResultToClaimCondition(
+		ctx,
 		&mc,
 		provider,
-		claim.storage,
 	)
 	if err != nil {
 		return nil, err
@@ -80,19 +83,19 @@ func (claim *EditionDropClaimConditions) GetActive(tokenId int) (*ClaimCondition
 //
 // Example
 //
-// 	tokenId := 0
-// 	conditions, err := contract.ClaimConditions.GetAll(tokenId)
+//	tokenId := 0
+//	conditions, err := contract.ClaimConditions.GetAll(context.Background(), tokenId)
 //
-// 	// Now you have access to all the claim condition metadata
-// 	condition := conditions[0]
-// 	fmt.Println("Start Time:", condition.StartTime)
-// 	fmt.Println("Available:", condition.AvailableSupply)
-// 	fmt.Println("Quantity:", condition.MaxQuantity)
-// 	fmt.Println("Quantity Limit:", condition.QuantityLimitPerTransaction)
-// 	fmt.Println("Price:", condition.Price)
-// 	fmt.Println("Wait In Seconds", condition.WaitInSeconds)
-func (claim *EditionDropClaimConditions) GetAll(tokenId int) ([]*ClaimConditionOutput, error) {
-	condition, err := claim.abi.ClaimCondition(&bind.CallOpts{}, big.NewInt(int64(tokenId)))
+//	// Now you have access to all the claim condition metadata
+//	condition := conditions[0]
+//	fmt.Println("Start Time:", condition.StartTime)
+//	fmt.Println("Available:", condition.AvailableSupply)
+//	fmt.Println("Quantity:", condition.MaxQuantity)
+//	fmt.Println("Quantity Limit:", condition.QuantityLimitPerTransaction)
+//	fmt.Println("Price:", condition.Price)
+//	fmt.Println("Wait In Seconds", condition.WaitInSeconds)
+func (claim *EditionDropClaimConditions) GetAll(ctx context.Context, tokenId int) ([]*ClaimConditionOutput, error) {
+	condition, err := claim.abi.ClaimCondition(&bind.CallOpts{Context: ctx}, big.NewInt(int64(tokenId)))
 	if err != nil {
 		return nil, err
 	}
@@ -103,15 +106,15 @@ func (claim *EditionDropClaimConditions) GetAll(tokenId int) ([]*ClaimConditionO
 
 	conditions := []*ClaimConditionOutput{}
 	for i := startId; i < count; i++ {
-		mc, err := claim.abi.GetClaimConditionById(&bind.CallOpts{}, big.NewInt(int64(tokenId)), big.NewInt(i))
+		mc, err := claim.abi.GetClaimConditionById(&bind.CallOpts{Context: ctx}, big.NewInt(int64(tokenId)), big.NewInt(i))
 		if err != nil {
 			return nil, err
 		}
 
 		claimCondition, err := transformResultToClaimCondition(
+			ctx,
 			&mc,
 			provider,
-			claim.storage,
 		)
 		if err != nil {
 			return nil, err
@@ -121,4 +124,25 @@ func (claim *EditionDropClaimConditions) GetAll(tokenId int) ([]*ClaimConditionO
 	}
 
 	return conditions, nil
+}
+
+func (claim *EditionDropClaimConditions) GetMerkleMetadata(ctx context.Context) (*map[string]string, error) {
+	uri, err := claim.abi.InternalContractURI(&bind.CallOpts{Context: ctx})
+	if err != nil {
+		return nil, err
+	}
+
+	body, err := claim.storage.Get(ctx, uri)
+	if err != nil {
+		return nil, err
+	}
+
+	var rawMetadata struct {
+		Merkle map[string]string `json:"merkle"`
+	}
+	if err := json.Unmarshal(body, &rawMetadata); err != nil {
+		return nil, err
+	}
+
+	return &rawMetadata.Merkle, nil
 }

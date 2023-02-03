@@ -1,13 +1,14 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/web3sdks/go-sdk/web3sdks"
+	"github.com/web3sdks/go-sdk/v2/web3sdks"
 )
 
 var (
@@ -32,7 +33,7 @@ var editionDropGetAllCmd = &cobra.Command{
 			panic(err)
 		}
 
-		allNfts, err := editionDrop.GetAll()
+		allNfts, err := editionDrop.GetAll(context.Background())
 		if err != nil {
 			panic(err)
 		}
@@ -51,7 +52,7 @@ var editionDropGetActiveCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		all, err := editionDrop.ClaimConditions.GetAll(0)
+		all, err := editionDrop.ClaimConditions.GetAll(context.Background(), 0)
 		if err != nil {
 			panic(err)
 		}
@@ -60,13 +61,13 @@ var editionDropGetActiveCmd = &cobra.Command{
 			fmt.Printf(fmt.Sprintf("\n\nClaim Condition %d\n================\n", i))
 			fmt.Println("Start Time:", c.StartTime)
 			fmt.Println("Available:", c.AvailableSupply)
-			fmt.Println("Quantity:", c.MaxQuantity)
-			fmt.Println("Quantity Limit:", c.QuantityLimitPerTransaction)
+			fmt.Println("Quantity:", c.MaxClaimableSupply)
+			fmt.Println("Quantity Limit:", c.MaxClaimablePerWallet)
 			fmt.Println("Price:", c.Price)
 			fmt.Println("Wait In Seconds", c.WaitInSeconds)
 		}
 
-		all, err = editionDrop.ClaimConditions.GetAll(1)
+		all, err = editionDrop.ClaimConditions.GetAll(context.Background(), 1)
 		if err != nil {
 			panic(err)
 		}
@@ -75,8 +76,8 @@ var editionDropGetActiveCmd = &cobra.Command{
 			fmt.Printf(fmt.Sprintf("\n\nClaim Condition %d\n================\n", i))
 			fmt.Println("Start Time:", c.StartTime)
 			fmt.Println("Available:", c.AvailableSupply)
-			fmt.Println("Quantity:", c.MaxQuantity)
-			fmt.Println("Quantity Limit:", c.QuantityLimitPerTransaction)
+			fmt.Println("Quantity:", c.MaxClaimableSupply)
+			fmt.Println("Quantity Limit:", c.MaxClaimablePerWallet)
 			fmt.Println("Price:", c.Price)
 			fmt.Println("Wait In Seconds", c.WaitInSeconds)
 		}
@@ -92,7 +93,7 @@ var editionDropClaimCmd = &cobra.Command{
 			panic(err)
 		}
 
-		if tx, err := editionDrop.Claim(0, 1); err != nil {
+		if tx, err := editionDrop.Claim(context.Background(), 0, 1); err != nil {
 			panic(err)
 		} else {
 			log.Printf("Claimed nft successfully")
@@ -119,6 +120,7 @@ var editionDropCreateBatchCmd = &cobra.Command{
 		defer imageFile.Close()
 
 		if tx, err := editionDrop.CreateBatch(
+			context.Background(),
 			[]*web3sdks.NFTMetadataInput{
 				{
 					Name:  "Drop NFT 1",

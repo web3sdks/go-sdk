@@ -9,7 +9,7 @@ You can use the wallet authenticator as follows:
 
 ```
 // First we specify the domain of the application to authenticate to
-domain := "web3sdks.com"
+domain := "example.com"
 
 // We can then generate a payload for the connected wallet to login
 // This can also be done on the client side with the web3sdks TypeScript SDK
@@ -49,7 +49,7 @@ returns: The address of the authenticated wallet
 #### Example
 
 ```
-domain := "web3sdks.com"
+domain := "example.com"
 payload, err := sdk.Auth.Login(domain)
 token, err := sdk.Auth.GenerateAuthToken(domain, payload)
 
@@ -76,7 +76,7 @@ returns:  An authentication token that can be used to make authenticated request
 #### Example
 
 ```
-domain := "web3sdks.com"
+domain := "example.com"
 payload, err := sdk.Auth.Login(domain, nil)
 
 // Generate an authentication token for the logged in wallet
@@ -101,7 +101,7 @@ returns: A login payload that can be sent to the server\-side for verification o
 
 ```
 // Add the domain of the application that you want to log in to
-domain := "web3sdks.com"
+domain := "example.com"
 
 // Generate a signed login payload for the connected wallet to authenticate with
 payload, err := sdk.Auth.Login(domain, nil)
@@ -124,14 +124,14 @@ returns: The address of the logged in wallet that signed the payload
 #### Example
 
 ```
-domain := "web3sdks.com"
+domain := "example.com"
 payload, err := sdk.Auth.Login(domain, nil)
 
 // Verify the login request
 address, err := sdk.Auth.Verify(domain, payload, nil)
 ```
 
-## type [WalletLoginOptions](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/types.go#L215-L219>)
+## type [WalletLoginOptions](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/types.go#L224-L228>)
 
 ```go
 type WalletLoginOptions struct {
@@ -141,7 +141,7 @@ type WalletLoginOptions struct {
 }
 ```
 
-## type [WalletLoginPayload](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/types.go#L229-L232>)
+## type [WalletLoginPayload](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/types.go#L238-L241>)
 
 ```go
 type WalletLoginPayload struct {
@@ -150,7 +150,7 @@ type WalletLoginPayload struct {
 }
 ```
 
-## type [WalletLoginPayloadData](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/types.go#L221-L227>)
+## type [WalletLoginPayloadData](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/types.go#L230-L236>)
 
 ```go
 type WalletLoginPayloadData struct {
@@ -162,7 +162,7 @@ type WalletLoginPayloadData struct {
 }
 ```
 
-## type [WalletVerifyOptions](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/types.go#L234-L236>)
+## type [WalletVerifyOptions](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/types.go#L243-L245>)
 
 ```go
 type WalletVerifyOptions struct {

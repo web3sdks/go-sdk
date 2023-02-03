@@ -5,7 +5,7 @@ You can access the Token interface from the SDK as follows:
 
 ```
 import (
-	"github.com/web3sdks/go-sdk/web3sdks"
+	"github.com/web3sdks/go-sdk/v2/web3sdks"
 )
 
 privateKey = "..."
@@ -21,13 +21,14 @@ contract, err := sdk.GetToken("{{contract_address}}")
 type Token struct {
     *ERC20
     Encoder *ContractEncoder
+    Events  *ContractEvents
 }
 ```
 
-### func \(\*Token\) [DelegateTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L192>)
+### func \(\*Token\) [DelegateTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L201>)
 
 ```go
-func (token *Token) DelegateTo(delegatreeAddress string) (*types.Transaction, error)
+func (token *Token) DelegateTo(ctx context.Context, delegatreeAddress string) (*types.Transaction, error)
 ```
 
 Delegate the connected wallets tokens to a specified wallet\.
@@ -36,7 +37,7 @@ delegateeAddress: wallet address to delegate tokens to
 
 returns: transaction receipt of the delegation
 
-### func \(\*Token\) [GetDelegation](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L80>)
+### func \(\*Token\) [GetDelegation](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L89>)
 
 ```go
 func (token *Token) GetDelegation() (string, error)
@@ -46,7 +47,7 @@ Get the connected wallets delegatee address for this token\.
 
 returns: delegation address of the connected wallet
 
-### func \(\*Token\) [GetDelegationOf](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L87>)
+### func \(\*Token\) [GetDelegationOf](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L96>)
 
 ```go
 func (token *Token) GetDelegationOf(address string) (string, error)
@@ -56,20 +57,20 @@ Get a specified wallets delegatee for this token\.
 
 returns: delegation address of the connected wallet
 
-### func \(\*Token\) [GetVoteBalance](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L59>)
+### func \(\*Token\) [GetVoteBalance](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L68>)
 
 ```go
-func (token *Token) GetVoteBalance() (*CurrencyValue, error)
+func (token *Token) GetVoteBalance(ctx context.Context) (*CurrencyValue, error)
 ```
 
 Get the connected wallets voting power in this token\.
 
 returns: vote balance of the connected wallet
 
-### func \(\*Token\) [GetVoteBalanceOf](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L68>)
+### func \(\*Token\) [GetVoteBalanceOf](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L77>)
 
 ```go
-func (token *Token) GetVoteBalanceOf(address string) (*CurrencyValue, error)
+func (token *Token) GetVoteBalanceOf(ctx context.Context, address string) (*CurrencyValue, error)
 ```
 
 Get the voting power of the specified wallet in this token\.
@@ -78,10 +79,10 @@ address: wallet address to check the vote balance of
 
 returns: vote balance of the specified wallet
 
-### func \(\*Token\) [Mint](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L101>)
+### func \(\*Token\) [Mint](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L110>)
 
 ```go
-func (token *Token) Mint(amount float64) (*types.Transaction, error)
+func (token *Token) Mint(ctx context.Context, amount float64) (*types.Transaction, error)
 ```
 
 Mint tokens to the connected wallet\.
@@ -90,10 +91,10 @@ amount: amount of tokens to mint
 
 returns: transaction receipt of the mint
 
-### func \(\*Token\) [MintBatchTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L154>)
+### func \(\*Token\) [MintBatchTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L163>)
 
 ```go
-func (token *Token) MintBatchTo(args []*TokenAmount) (*types.Transaction, error)
+func (token *Token) MintBatchTo(ctx context.Context, args []*TokenAmount) (*types.Transaction, error)
 ```
 
 Mint tokens to a list of wallets\.
@@ -116,13 +117,13 @@ args = []*web3sdks.TokenAmount{
 	}
 }
 
-tx, err := contract.MintBatchTo(args)
+tx, err := contract.MintBatchTo(context.Background(), args)
 ```
 
-### func \(\*Token\) [MintTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L116>)
+### func \(\*Token\) [MintTo](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/token.go#L125>)
 
 ```go
-func (token *Token) MintTo(to string, amount float64) (*types.Transaction, error)
+func (token *Token) MintTo(ctx context.Context, to string, amount float64) (*types.Transaction, error)
 ```
 
 Mint tokens to a specified wallet\.
@@ -136,10 +137,10 @@ returns: transaction receipt of the mint
 #### Example
 
 ```
-tx, err := contract.MintTo("{{wallet_address}}", 1)
+tx, err := contract.MintTo(context.Background(), "{{wallet_address}}", 1)
 ```
 
-## type [TokenAmount](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/types.go#L94-L97>)
+## type [TokenAmount](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/types.go#L103-L106>)
 
 ```go
 type TokenAmount struct {

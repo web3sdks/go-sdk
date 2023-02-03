@@ -18,13 +18,19 @@ func NewWeb3sdksSDK(rpcUrlOrChainName string, options *SDKOptions) (*Web3sdksSDK
 
 #### NewWeb3sdksSDK
 
-Create a new instance of the Web3sdks SDK
+\# Create a new instance of the Web3sdks SDK
 
 rpcUrlOrName: the name of the chain to connection to \(e\.g\. "rinkeby", "mumbai", "polygon", "mainnet", "fantom", "avalanche"\) or the RPC URL to connect to
 
 options: an SDKOptions instance to specify a private key and/or an IPFS gateway URL
 
-### func \(\*Web3sdksSDK\) [GetContract](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L183>)
+### func [NewWeb3sdksSDKFromProvider](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L39>)
+
+```go
+func NewWeb3sdksSDKFromProvider(provider *ethclient.Client, options *SDKOptions) (*Web3sdksSDK, error)
+```
+
+### func \(\*Web3sdksSDK\) [GetContract](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L187>)
 
 ```go
 func (sdk *Web3sdksSDK) GetContract(address string) (*SmartContract, error)
@@ -32,11 +38,11 @@ func (sdk *Web3sdksSDK) GetContract(address string) (*SmartContract, error)
 
 #### GetContract
 
-Get an instance of a custom contract deployed with web3sdks deploy
+\# Get an instance of a custom contract deployed with web3sdks deploy
 
 address: the address of the contract
 
-### func \(\*Web3sdksSDK\) [GetContractFromAbi](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L199>)
+### func \(\*Web3sdksSDK\) [GetContractFromAbi](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L203>)
 
 ```go
 func (sdk *Web3sdksSDK) GetContractFromAbi(address string, abi string) (*SmartContract, error)
@@ -44,13 +50,13 @@ func (sdk *Web3sdksSDK) GetContractFromAbi(address string, abi string) (*SmartCo
 
 #### GetContractFromABI
 
-Get an instance of ant custom contract from its ABI
+\# Get an instance of ant custom contract from its ABI
 
 address: the address of the contract
 
 abi: the ABI of the contract
 
-### func \(\*Web3sdksSDK\) [GetEdition](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L97>)
+### func \(\*Web3sdksSDK\) [GetEdition](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L101>)
 
 ```go
 func (sdk *Web3sdksSDK) GetEdition(address string) (*Edition, error)
@@ -58,11 +64,11 @@ func (sdk *Web3sdksSDK) GetEdition(address string) (*Edition, error)
 
 #### GetEdition
 
-Get an Edition contract SDK instance
+\# Get an Edition contract SDK instance
 
 address: the address of the Edition contract
 
-### func \(\*Web3sdksSDK\) [GetEditionDrop](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L141>)
+### func \(\*Web3sdksSDK\) [GetEditionDrop](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L145>)
 
 ```go
 func (sdk *Web3sdksSDK) GetEditionDrop(address string) (*EditionDrop, error)
@@ -70,11 +76,11 @@ func (sdk *Web3sdksSDK) GetEditionDrop(address string) (*EditionDrop, error)
 
 #### GetEditionDrop
 
-Get an Edition Drop contract SDK instance
+\# Get an Edition Drop contract SDK instance
 
 address: the address of the Edition Drop contract
 
-### func \(\*Web3sdksSDK\) [GetMarketplace](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L169>)
+### func \(\*Web3sdksSDK\) [GetMarketplace](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L173>)
 
 ```go
 func (sdk *Web3sdksSDK) GetMarketplace(address string) (*Marketplace, error)
@@ -82,11 +88,11 @@ func (sdk *Web3sdksSDK) GetMarketplace(address string) (*Marketplace, error)
 
 #### GetMarketplace
 
-Get a Marketplace contract SDK instance
+\# Get a Marketplace contract SDK instance
 
 address: the address of the Marketplace contract
 
-### func \(\*Web3sdksSDK\) [GetMultiwrap](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L155>)
+### func \(\*Web3sdksSDK\) [GetMultiwrap](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L159>)
 
 ```go
 func (sdk *Web3sdksSDK) GetMultiwrap(address string) (*Multiwrap, error)
@@ -94,11 +100,11 @@ func (sdk *Web3sdksSDK) GetMultiwrap(address string) (*Multiwrap, error)
 
 #### GetMultiwrap
 
-Get a Multiwrap contract SDK instance
+\# Get a Multiwrap contract SDK instance
 
 address: the address of the Multiwrap contract
 
-### func \(\*Web3sdksSDK\) [GetNFTCollection](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L83>)
+### func \(\*Web3sdksSDK\) [GetNFTCollection](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L87>)
 
 ```go
 func (sdk *Web3sdksSDK) GetNFTCollection(address string) (*NFTCollection, error)
@@ -106,11 +112,11 @@ func (sdk *Web3sdksSDK) GetNFTCollection(address string) (*NFTCollection, error)
 
 #### GetNFTCollection
 
-Get an NFT Collection contract SDK instance
+\# Get an NFT Collection contract SDK instance
 
 address: the address of the NFT Collection contract
 
-### func \(\*Web3sdksSDK\) [GetNFTDrop](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L127>)
+### func \(\*Web3sdksSDK\) [GetNFTDrop](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L131>)
 
 ```go
 func (sdk *Web3sdksSDK) GetNFTDrop(address string) (*NFTDrop, error)
@@ -118,11 +124,11 @@ func (sdk *Web3sdksSDK) GetNFTDrop(address string) (*NFTDrop, error)
 
 #### GetNFTDrop
 
-Get an NFT Drop contract SDK instance
+\# Get an NFT Drop contract SDK instance
 
 address: the address of the NFT Drop contract
 
-### func \(\*Web3sdksSDK\) [GetToken](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L113>)
+### func \(\*Web3sdksSDK\) [GetToken](<https://github.com/web3sdks/go-sdk/blob/main/web3sdks/sdk.go#L117>)
 
 ```go
 func (sdk *Web3sdksSDK) GetToken(address string) (*Token, error)
@@ -130,7 +136,7 @@ func (sdk *Web3sdksSDK) GetToken(address string) (*Token, error)
 
 #### GetToken
 
-Returns a Token contract SDK instance
+\# Returns a Token contract SDK instance
 
 address: address of the token contract
 

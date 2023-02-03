@@ -1,13 +1,15 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/web3sdks/go-sdk/web3sdks"
+
+	"github.com/web3sdks/go-sdk/v2/web3sdks"
 )
 
 var (
@@ -32,7 +34,7 @@ var nftDropGetAllCmd = &cobra.Command{
 			panic(err)
 		}
 
-		allNfts, err := nftDrop.GetAll()
+		allNfts, err := nftDrop.GetAll(context.Background())
 		if err != nil {
 			panic(err)
 		}
@@ -40,6 +42,36 @@ var nftDropGetAllCmd = &cobra.Command{
 		for _, nft := range allNfts {
 			log.Printf("Got drop nft with name '%v' and description '%v' and id '%d'\n", nft.Metadata.Name, nft.Metadata.Description, nft.Metadata.Id)
 		}
+	},
+}
+
+var nftDropEncoderCmd = &cobra.Command{
+	Use:   "encoder",
+	Short: "Get encoded claim transaction",
+	Run: func(cmd *cobra.Command, args []string) {
+		nftDrop, err := getNftDrop()
+		if err != nil {
+			panic(err)
+		}
+
+		// tx, err := nftDrop.Encoder.ApproveClaimTo(
+		// 	context.Background(),
+		// 	web3sdksSDK.GetSignerAddress().String(),
+		// 	1,
+		// )
+
+		tx, err := nftDrop.Encoder.ClaimTo(
+			context.Background(),
+			web3sdksSDK.GetSignerAddress().String(),
+			web3sdksSDK.GetSignerAddress().String(),
+			1,
+		)
+		if err != nil {
+			panic(err)
+		}
+
+		log.Println(tx.Data())
+		log.Println(tx.To())
 	},
 }
 
@@ -52,19 +84,19 @@ var nftDropGetActiveCmd = &cobra.Command{
 			panic(err)
 		}
 
-		active, err := nftDrop.ClaimConditions.GetActive()
+		active, err := nftDrop.ClaimConditions.GetActive(context.Background())
 		if err != nil {
 			panic(err)
 		}
 
 		fmt.Println("Start Time:", active.StartTime)
 		fmt.Println("Available:", active.AvailableSupply)
-		fmt.Println("Quantity:", active.MaxQuantity)
-		fmt.Println("Quantity Limit:", active.QuantityLimitPerTransaction)
+		fmt.Println("Quantity:", active.MaxClaimableSupply)
+		fmt.Println("Quantity Limit:", active.MaxClaimablePerWallet)
 		fmt.Println("Price:", active.Price)
 		fmt.Println("Wait In Seconds", active.WaitInSeconds)
 
-		all, err := nftDrop.ClaimConditions.GetAll()
+		all, err := nftDrop.ClaimConditions.GetAll(context.Background())
 		if err != nil {
 			panic(err)
 		}
@@ -73,8 +105,8 @@ var nftDropGetActiveCmd = &cobra.Command{
 			fmt.Printf(fmt.Sprintf("\n\nClaim Condition %d\n================\n", i))
 			fmt.Println("Start Time:", c.StartTime)
 			fmt.Println("Available:", c.AvailableSupply)
-			fmt.Println("Quantity:", c.MaxQuantity)
-			fmt.Println("Quantity Limit:", c.QuantityLimitPerTransaction)
+			fmt.Println("Quantity:", c.MaxClaimableSupply)
+			fmt.Println("Quantity Limit:", c.MaxClaimablePerWallet)
 			fmt.Println("Price:", c.Price)
 			fmt.Println("Wait In Seconds", c.WaitInSeconds)
 		}
@@ -90,14 +122,59 @@ var nftDropClaimCmd = &cobra.Command{
 			panic(err)
 		}
 
-		if tx, err := nftDrop.Claim(1); err != nil {
+		emptySdk, err := web3sdks.NewWeb3sdksSDK(
+			chainRpcUrl,
+			nil,
+		)
+		if err != nil {
 			panic(err)
-		} else {
-			log.Printf("Claimed nft successfully")
-
-			result, _ := json.Marshal(&tx)
-			fmt.Println(string(result))
 		}
+
+		emptyDrop, err := emptySdk.GetNFTDrop(nftDropContractAddress)
+
+		address := web3sdksSDK.GetSignerAddress().String()
+		claimArgs, err := emptyDrop.GetClaimArguments(context.Background(), address, 1)
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Printf("%#v\n", claimArgs)
+
+		txOpts, err := nftDrop.Helper.GetTxOptions(context.Background())
+		if err != nil {
+			panic(err)
+		}
+
+		txOpts.Value = claimArgs.TxValue
+
+		tx, err := nftDrop.Abi.Claim(
+			txOpts,
+			claimArgs.Receiver,
+			claimArgs.Quantity,
+			claimArgs.Currency,
+			claimArgs.PricePerToken,
+			claimArgs.AllowlistProof,
+			claimArgs.Data,
+		)
+		if err != nil {
+			panic(err)
+		}
+
+		awaitTx(tx.Hash())
+
+		unclaimed, err := nftDrop.TotalUnclaimedSupply(context.Background())
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Println(unclaimed)
+
+		// tx, err := nftDrop.Claim(context.Background(), 1)
+		// if err != nil {
+		// 	panic(err)
+		// }
+
+		// log.Println("Claimed nft with tx hash", tx.Hash().String())
 	},
 }
 
@@ -123,6 +200,7 @@ var nftDropCreateBatchCmd = &cobra.Command{
 		defer image1.Close()
 
 		if tx, err := nftDrop.CreateBatch(
+			context.Background(),
 			[]*web3sdks.NFTMetadataInput{
 				{
 					Name:  "Drop NFT 1",
@@ -155,6 +233,7 @@ var nftDropCreateBatchCmd = &cobra.Command{
 func init() {
 	nftDropCmd.PersistentFlags().StringVarP(&nftDropContractAddress, "address", "a", "", "nft drop contract address")
 	nftDropCmd.AddCommand(nftDropGetAllCmd)
+	nftDropCmd.AddCommand(nftDropEncoderCmd)
 	nftDropCmd.AddCommand(nftDropGetActiveCmd)
 	nftDropCmd.AddCommand(nftDropClaimCmd)
 	nftDropCmd.AddCommand(nftDropCreateBatchCmd)
